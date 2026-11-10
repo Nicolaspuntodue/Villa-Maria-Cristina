@@ -1,0 +1,331 @@
+/* Villa Maria Cristina: granite, salt water, night.
+   One ground (pale granite), one ink (deep pool night), one accent (pool blue). One typeface, the system's own
+   (San Francisco on Apple devices, Inter elsewhere): tight tracking and weight on the large sizes, plain on the small.
+   Rounded corners, a translucent bar, no lines, no shadows. */
+:root {
+  --ground: #eceae4;
+  --surface: #dfdcd3;
+  --ink: #0c1f29;
+  --muted: #3f5059;
+  --accent: #0d6682;
+  --on-accent: #ffffff;
+  --pool: #0a3344;
+  --night: #06131b;
+  --on-night: #e8eef0;
+  --on-night-muted: #a9bbc3;
+
+  --text: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+  --display: var(--text);
+  --radius: 22px;
+  --step-head: clamp(2.5rem, 1.2rem + 5.4vw, 6.25rem);
+  --step-lead: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-small: 1rem;
+
+  --gutter: clamp(16px, 4vw, 56px);
+  --section: clamp(96px, 14vw, 220px);
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--ground); color: var(--ink);
+  font-family: var(--text); font-size: var(--step-body); line-height: 1.55;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3, p, figure, ul, dl, dd, blockquote { margin: 0; }
+ul { padding: 0; list-style: none; }
+a { color: inherit; }
+h2 { font-family: var(--display); font-weight: 600; font-size: var(--step-head); line-height: 1.04; letter-spacing: -0.04em; text-wrap: balance; }
+h3 { font-family: var(--display); font-weight: 600; font-size: var(--step-lead); line-height: 1.1; letter-spacing: -0.025em; }
+.statement { font-family: var(--display); font-size: var(--step-lead); line-height: 1.2; text-wrap: balance; }
+/* the lead size: heavier and tighter than the reading text */
+.statement, .hero__sub, .pool__text, .quotes p, .beaches__n, .beaches__km, .facts dt, .nav__mark { font-weight: 600; letter-spacing: -0.025em; }
+.wrap { padding-inline: var(--gutter); max-width: 1680px; margin-inline: auto; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+::selection { background: var(--accent); color: var(--on-accent); }
+figcaption { margin-top: 12px; font-size: var(--step-small); color: var(--muted); }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 28px;
+  background: var(--accent); color: var(--on-accent); border: 0; border-radius: 999px; cursor: pointer;
+  font: 500 1.0625rem/1 var(--text); text-decoration: none;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease), transform 0.15s var(--ease);
+}
+.btn:hover { background: var(--ink); }
+.btn:active { transform: scale(0.97); }
+.btn--small { min-height: 44px; padding: 0 20px; font-size: 1rem; }
+.btn--light { background: var(--on-night); color: var(--night); }
+.btn--light:hover { background: #ffffff; color: var(--night); }
+
+/* ---------- navigation ---------- */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 20; display: flex; align-items: center; gap: clamp(12px, 2.4vw, 36px);
+  padding: 14px var(--gutter); color: var(--on-night);
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+/* a translucent layer: the page scrolls underneath it */
+.nav.is-solid { background: rgb(236 234 228 / 0.72); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); color: var(--ink); }
+.nav.is-solid.is-dark { background: rgb(6 19 27 / 0.72); color: var(--on-night); }
+@media (prefers-reduced-transparency: reduce) {
+  .nav.is-solid { background: var(--ground); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .nav.is-solid.is-dark { background: var(--night); }
+}
+.nav.is-dark .btn--small { background: var(--on-night); color: var(--night); }
+.nav__mark { font-family: var(--display); font-size: 1.25rem; letter-spacing: 0.01em; text-decoration: none; margin-right: auto; white-space: nowrap; }
+.nav__links { display: none; gap: clamp(16px, 2vw, 32px); }
+.nav__links a, .foot__links a { text-decoration: none; padding: 12px 0; background: linear-gradient(currentColor, currentColor) 0 calc(100% - 8px) / 0 2px no-repeat; transition: background-size 0.3s var(--ease); }
+.nav__links a:hover, .foot__links a:hover { background-size: 100% 2px; }
+.nav__lang select {
+  appearance: none; min-height: 44px; padding: 0 30px 0 12px; border: 0; border-radius: 0; cursor: pointer;
+  font: 500 1rem var(--text); color: inherit;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238aa' stroke-width='2'/%3E%3C/svg%3E") right 10px center no-repeat;
+}
+.nav__lang select option { color: #0c1f29; }
+.nav:not(.is-solid) .btn--small { background: var(--on-night); color: var(--night); }
+@media (min-width: 960px) { .nav__links { display: flex; } }
+@media (max-width: 480px) { .nav .btn--small { display: none; } .nav__lang select { padding-left: 4px; } }
+
+/* ---------- hero: the pool from above ---------- */
+.hero { position: relative; background: var(--pool); }
+/* static version (no WebGL, or reduced motion): the aerial photo, the name on a solid panel at its foot, the intro below */
+.hero__stage { position: relative; }
+.hero__poster { width: 100%; height: 100svh; min-height: 560px; object-fit: cover; object-position: 20% 50%; }
+.hero__gl { display: none; }
+.hero__copy {
+  position: absolute; left: 0; right: 0; top: max(100svh, 560px); transform: translateY(-100%);
+  padding: var(--gutter); padding-bottom: clamp(24px, 5vh, 56px); background: var(--night);
+  color: var(--on-night); display: grid; gap: 20px; justify-items: start;
+}
+.hero__title { font-family: var(--display); font-weight: 700; font-size: clamp(2.75rem, 9vw, 8rem); line-height: 0.95; letter-spacing: -0.045em; }
+.hero__sub { font-size: var(--step-lead); font-family: var(--display); line-height: 1.2; max-width: 22em; text-wrap: balance; }
+.hero__actions { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.hero__hint { font-size: var(--step-small); display: none; }
+/* scene version: the name is the one lying on the pool floor, so the DOM heading stays for readers and search only */
+.has-scene .hero__poster { display: none; }
+.has-scene .hero__gl { display: block; position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.9s var(--ease); touch-action: pan-y; }
+.has-scene .hero__gl.is-ready { opacity: 1; }
+.has-scene .hero__copy { top: auto; bottom: 0; transform: none; background: none; }
+.has-scene .hero__title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.has-scene .hero__hint { display: block; animation: hint 2.4s var(--ease) infinite; }
+@keyframes hint { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+
+.hero__intro { background: var(--night); color: var(--on-night); padding: clamp(40px, 7vw, 96px) var(--gutter); display: grid; gap: 28px; align-content: center; }
+.hero__intro > p:not(.statement) { color: var(--on-night-muted); max-width: 34em; }
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 24px; margin-top: 12px; }
+.facts dt { font-family: var(--display); font-size: clamp(2rem, 1.4rem + 2.4vw, 3.5rem); line-height: 1; }
+.facts dd { color: var(--on-night-muted); font-size: var(--step-small); margin-top: 6px; }
+
+/* scroll scene: only when the water is running (JS adds .has-gl and motion is allowed) */
+.has-scene .hero { height: 340svh; }
+.has-scene .hero__stage { position: sticky; top: 0; height: 100svh; min-height: 560px; overflow: hidden; }
+.has-scene .hero__intro { position: absolute; inset: auto 0 0 0; max-height: 74%; padding-block: 28px 32px; gap: 18px; align-content: start; }
+.has-scene .hero__intro .facts { gap: 16px 24px; margin-top: 4px; }
+@media (min-width: 900px) {
+  .has-scene .hero__intro { inset: 0 0 0 auto; width: 42%; max-height: none; padding-block: 96px 48px; gap: 28px; align-content: center; }
+  .has-scene .hero__intro .facts { gap: 28px 24px; margin-top: 12px; }
+}
+
+/* ---------- la dimora ---------- */
+.dimora { padding-block: var(--section); }
+.dimora__head { display: grid; gap: 32px; margin-bottom: clamp(48px, 7vw, 112px); }
+.dimora__text { display: grid; gap: 1em; max-width: 34em; }
+.frame { overflow: hidden; }
+.ph .frame, .room img { border-radius: var(--radius); }
+.fx { position: absolute; }
+.frame img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: var(--ar, 4 / 3); }
+/* the house in four details. Without JS: the four photographs in a grid, the four texts under them.
+   With JS: one photograph held on screen while the texts scroll past, changing with the text that is current */
+.story__stage { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.story__ph img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+.story__bar { display: none; }
+.story__steps { display: grid; gap: 40px; margin-top: 48px; }
+.story__k { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+.story__steps h3 { margin-top: 8px; font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3rem); letter-spacing: -0.035em; }
+.story__steps p { color: var(--muted); max-width: 24em; margin-top: 14px; }
+.js .story__stage { display: block; position: sticky; top: 72px; z-index: 1; height: 38svh; border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+.js .story__ph { position: absolute; inset: 0; opacity: 0; transform: scale(1.08); transition: opacity 0.7s var(--ease), transform 1.4s var(--ease); }
+.js .story__ph.is-on { opacity: 1; transform: none; }
+.js .story__ph img { height: 100%; aspect-ratio: auto; border-radius: 0; }
+.js .story__bar { display: block; position: absolute; inset: auto 20px 20px 20px; height: 3px; border-radius: 3px; background: rgb(255 255 255 / 0.35); }
+.js .story__bar i { display: block; height: 100%; border-radius: inherit; background: #ffffff; transform-origin: 0 50%; transform: scaleX(0); }
+.js .story__steps { gap: 0; margin-top: 0; }
+.js .story__steps li { min-height: 40svh; padding-top: 28px; display: grid; align-content: start; opacity: 0.22; transform: translateY(14px); transition: opacity 0.5s var(--ease), transform 0.7s var(--ease); }
+.js .story__steps li.is-on { opacity: 1; transform: none; }
+@media (min-width: 900px) {
+  .dimora__head { grid-template-columns: repeat(12, 1fr); align-items: end; }
+  .dimora__head h2 { grid-column: 1 / 8; }
+  .dimora__text { grid-column: 8 / -1; }
+  .story { display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 var(--gutter); align-items: start; }
+  .story__stage { grid-column: 1 / 8; }
+  .story__steps { grid-column: 9 / -1; margin-top: 0; }
+  .js .story__stage { top: 96px; height: calc(100svh - 144px); border-radius: 32px; }
+  .js .story__steps li { min-height: 72svh; padding-top: 0; align-content: center; }
+}
+
+/* ---------- la piscina ---------- */
+.pool { background: var(--pool); color: var(--on-night); padding-block: var(--section); }
+.pool figcaption { color: var(--on-night-muted); }
+.pool__head { margin-bottom: clamp(40px, 6vw, 96px); }
+.pool__wide { --ar: 4 / 3; }
+.pool__wide figcaption { padding-top: 12px; margin-top: 0; }
+.pool__row { display: grid; gap: clamp(40px, 5vw, 80px) var(--gutter); margin-top: clamp(64px, 9vw, 144px); }
+.pool__text { font-family: var(--display); font-size: var(--step-lead); line-height: 1.25; max-width: 24em; }
+.pool__mirror { --ar: 16 / 10; }
+.pool__lawn { --ar: 3 / 2; }
+@media (min-width: 900px) {
+  .pool__wide { --ar: 21 / 10; }
+  .pool__row { grid-template-columns: repeat(12, 1fr); align-items: start; }
+  .pool__text { grid-column: 1 / 6; position: sticky; top: 120px; }
+  .pool__mirror { grid-column: 6 / -1; }
+  .pool__lawn { grid-column: 8 / -1; }
+}
+
+/* ---------- le camere ---------- */
+.rooms { padding-block: var(--section) calc(var(--section) * 0.6); overflow: hidden; }
+.rooms__head { display: grid; gap: 24px; margin-bottom: clamp(32px, 4vw, 56px); }
+.rooms__head p { max-width: 30em; }
+.rooms__track {
+  display: flex; gap: var(--gutter); padding-inline: var(--gutter);
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.rooms__track::-webkit-scrollbar { display: none; }
+.room { flex: 0 0 min(82vw, 520px); scroll-snap-align: start; display: grid; gap: 8px; align-content: start; }
+.room img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: 12px; transition: transform 0.8s var(--ease); }
+.room:hover img { transform: scale(1.03); }
+.room { overflow: hidden; }
+.room__meta { color: var(--accent); font-weight: 600; }
+.rooms__foot { margin-top: clamp(40px, 5vw, 72px); }
+@media (min-width: 900px) {
+  .rooms__head { grid-template-columns: repeat(12, 1fr); align-items: end; }
+  .rooms__head h2 { grid-column: 1 / 8; }
+  .rooms__head p { grid-column: 8 / -1; }
+  /* pinned: the vertical scroll drives the row sideways (main.js) */
+  .has-motion .rooms__pin { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: 88px 24px; }
+  .has-motion .rooms__track { overflow: visible; width: max-content; will-change: transform; }
+  .has-motion .room { flex-basis: clamp(360px, 34vw, 560px); }
+  .has-motion .room img { aspect-ratio: 4 / 3; max-height: 46svh; }
+}
+
+/* ---------- la colazione ---------- */
+.bf { background: var(--surface); padding-block: var(--section); }
+.bf__grid { display: grid; gap: clamp(40px, 5vw, 80px) var(--gutter); }
+.bf__text { display: grid; gap: 28px; align-content: start; }
+.bf__text p { max-width: 30em; }
+.bf__door { --ar: 3 / 4; max-width: 420px; margin-top: 24px; }
+@media (min-width: 900px) {
+  .bf__grid { grid-template-columns: repeat(12, 1fr); }
+  .bf__garden { grid-column: 1 / 7; --ar: 4 / 5; }
+  .bf__text { grid-column: 7 / -1; padding-top: 8vw; padding-left: var(--gutter); }
+  .bf__text h2 { font-size: clamp(2.5rem, 4.6vw, 5rem); }
+  .bf__door { justify-self: end; }
+}
+
+/* ---------- vento e spiagge ---------- */
+.sea { padding-block: var(--section) 0; }
+.sea__head { display: grid; gap: 28px; margin-bottom: clamp(48px, 6vw, 96px); }
+.sea__live { color: var(--accent); max-width: 26em; min-height: 2.4em; }
+.sea__grid { display: grid; gap: 48px var(--gutter); margin-bottom: clamp(64px, 9vw, 144px); }
+.sea__text { max-width: 30em; }
+.beaches li { display: grid; grid-template-columns: 1fr auto; gap: 2px 24px; padding: 20px clamp(16px, 2vw, 28px); border-radius: 16px; transition: background-color 0.4s var(--ease), color 0.4s var(--ease); }
+.beaches li:nth-child(odd) { background: var(--surface); }
+.beaches__n { font-family: var(--display); font-size: var(--step-lead); line-height: 1.15; }
+.beaches__km { font-family: var(--display); font-size: var(--step-lead); line-height: 1.15; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.beaches__d { grid-column: 1 / -1; color: var(--muted); font-size: var(--step-small); transition: color 0.4s var(--ease); }
+.beaches li.is-today { background: var(--accent); color: var(--on-accent); }
+.beaches li.is-today .beaches__d { color: var(--on-accent); }
+/* wind chart: the conventions of shadcn/ui charts (title and description, horizontal grid only, no axis lines, a dot in the tooltip) in the villa's own tokens */
+.chart { background: var(--surface); border-radius: var(--radius); padding: clamp(20px, 3vw, 40px); margin: 0 0 clamp(48px, 6vw, 96px); display: grid; gap: 24px; }
+.chart__head { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.chart__head p, .chart__foot { color: var(--muted); font-size: var(--step-small); margin-top: 6px; }
+.chart__plot { position: relative; height: clamp(200px, 26vw, 320px); touch-action: pan-y; }
+.chart__svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.chart__svg text { fill: var(--muted); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+.chart__grid { stroke: var(--ink); stroke-opacity: 0.12; }
+.chart__area { fill: var(--accent); fill-opacity: 0.22; }
+.chart__line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.chart__dot { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+.chart__tip { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--ink); color: var(--ground); font-size: 0.875rem; white-space: nowrap; pointer-events: none; font-variant-numeric: tabular-nums; border-radius: 10px; }
+.chart__tip[hidden] { display: none; }
+.chart__tip i { width: 8px; height: 8px; background: #5cc3e0; }
+.compass { flex: none; }
+.compass__ring, .compass__ticks { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.compass__n { fill: var(--muted); font: 11px var(--display); }
+.compass__needle { fill: var(--accent); }
+.compass__tail { fill: var(--ink); fill-opacity: 0.3; }
+.sea__wide { background: var(--night); --ar: 4 / 3; }
+.sea__wide figcaption { color: var(--on-night-muted); padding-block: 12px; margin: 0; }
+@media (min-width: 900px) {
+  .sea__head { grid-template-columns: repeat(12, 1fr); align-items: end; }
+  .sea__head h2 { grid-column: 1 / 8; }
+  .sea__live { grid-column: 8 / -1; }
+  .sea__grid { grid-template-columns: repeat(12, 1fr); }
+  .sea__text { grid-column: 1 / 5; }
+  .beaches { grid-column: 6 / -1; }
+  .sea__wide { --ar: 21 / 10; }
+}
+
+/* ---------- la notte ---------- */
+.night { background: #020304; color: var(--on-night); }
+.night__stage { position: relative; min-height: 100svh; overflow: hidden; display: grid; }
+.night__poster, .night__gl { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%; }
+.night__gl { opacity: 0; transition: opacity 0.8s var(--ease); }
+.night__gl.is-ready { opacity: 1; }
+.night__copy { position: relative; width: 100%; padding-block: clamp(96px, 14vh, 160px) 48vh; display: grid; gap: clamp(32px, 5vw, 64px); align-content: start; }
+.night__copy h2 { max-width: 12em; }
+.quotes { display: grid; gap: 32px var(--gutter); }
+.quotes p { font-family: var(--display); font-size: var(--step-lead); line-height: 1.25; text-wrap: balance; }
+.quotes footer, .night__src { color: var(--on-night-muted); font-size: var(--step-small); margin-top: 10px; }
+@media (min-width: 900px) { .quotes { grid-template-columns: repeat(3, 1fr); } }
+.has-scene .night { height: 240svh; }
+.has-scene .night__stage { position: sticky; top: 0; height: 100svh; }
+.has-scene .night__copy { padding-bottom: 0; }
+
+/* ---------- prenota ---------- */
+.book { padding-block: var(--section); display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(56px, 7vw, 96px) var(--gutter); }
+.book__main { display: grid; gap: 28px; align-content: start; }
+.book__main > p { max-width: 30em; }
+.book__form { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; margin-top: 8px; max-width: 720px; }
+.book__form label { display: grid; gap: 8px; font-weight: 600; font-size: var(--step-small); min-width: 0; }
+.book__form input, .book__form select {
+  min-height: 56px; padding: 0 14px; border: 0; border-radius: 14px; background: var(--surface); color: var(--ink);
+  font: 500 1.0625rem var(--text); width: 100%; min-width: 0;
+}
+.book__form .btn { min-height: 56px; }
+.book__err { grid-column: 1 / -1; color: #9b1c1c; font-weight: 600; }
+.book__info { background: var(--surface); border-radius: var(--radius); padding: clamp(28px, 4vw, 56px); display: grid; gap: 20px; align-content: start; }
+.book__info li { padding-block: 8px; }
+@media (min-width: 720px) { .book__form { grid-template-columns: 1fr 1fr 110px auto; } }
+@media (min-width: 900px) {
+  .book { grid-template-columns: repeat(12, 1fr); }
+  .book__main { grid-column: 1 / 8; }
+  .book__info { grid-column: 9 / -1; }
+}
+
+/* ---------- footer ---------- */
+.foot { background: var(--night); color: var(--on-night); padding-top: clamp(64px, 8vw, 120px); overflow: hidden; }
+.foot__grid { display: grid; gap: 40px var(--gutter); }
+.foot address { font-style: normal; }
+.foot__links { display: grid; justify-items: start; }
+.foot__legal { color: var(--on-night-muted); font-size: var(--step-small); }
+.foot__name { font-family: var(--display); font-weight: 700; white-space: nowrap; text-align: center; font-size: 10.6vw; line-height: 1; letter-spacing: -0.045em; margin-top: clamp(56px, 8vw, 120px); padding-bottom: 2vw; color: #1d4a5e; }
+@media (min-width: 900px) { .foot__grid { grid-template-columns: 5fr 3fr 4fr; } }
+
+/* ---------- motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); transition-delay: calc(var(--i, 0) * 80ms); }
+  .js [data-reveal].in { opacity: 1; transform: none; }
+  /* headings come in word by word (main.js); hidden until their words are split */
+  html.has-motion h2[data-reveal] { opacity: 1; transform: none; transition: none; }
+  html.has-motion h2[data-reveal]:not(.is-split) { visibility: hidden; }
+  .js [data-clip] > .frame { clip-path: inset(0 0 100% 0); transition: clip-path 1.2s var(--ease); }
+  .js [data-clip].in > .frame { clip-path: inset(0); }
+  .js [data-clip] > figcaption { opacity: 0; transition: opacity 0.8s var(--ease) 0.5s; }
+  .js [data-clip].in > figcaption { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Villa Maria Cristina · Dimora storica con piscina a Santa Teresa Gallura</title>
+  <meta name="description" content="Dimora storica in granito del 1820 con piscina d'acqua salata, sei camere e colazione in giardino. Solo adulti, a Santa Teresa Gallura, Sardegna.">
+  <meta name="theme-color" content="#06131b">
+  <meta property="og:image" content="/photos/piscina-giorno.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="/media/aerial.webp">
+  <link rel="stylesheet" href="/src/style.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <header class="nav">
+    <a class="nav__mark" href="#top">Villa Maria Cristina</a>
+    <nav class="nav__links" aria-label="Sezioni">
+      <a href="#dimora" data-i18n="nav.villa">La dimora</a>
+      <a href="#piscina" data-i18n="nav.pool">La piscina</a>
+      <a href="#camere" data-i18n="nav.rooms">Le camere</a>
+      <a href="#spiagge" data-i18n="nav.beaches">Le spiagge</a>
+    </nav>
+    <label class="nav__lang">
+      <span class="sr" data-i18n="nav.lang">Lingua</span>
+      <select id="lang">
+        <option value="it">Italiano</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+      </select>
+    </label>
+    <a class="btn btn--small" href="#prenota" data-i18n="nav.book">Prenota</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero__stage">
+        <img class="hero__poster" src="/media/aerial.webp" alt="" width="1915" height="1080">
+        <canvas class="hero__gl" aria-hidden="true"></canvas>
+        <div class="hero__copy">
+          <h1 class="hero__title">Villa Maria Cristina</h1>
+          <p class="hero__sub" data-i18n="hero.sub">Dimora storica del 1820 con piscina d'acqua salata, a Santa Teresa Gallura.</p>
+          <div class="hero__actions">
+            <a class="btn btn--light" href="#prenota" data-i18n="hero.cta">Verifica disponibilità</a>
+            <p class="hero__hint" data-i18n="hero.hint">Toccate l'acqua</p>
+          </div>
+        </div>
+        <div class="hero__intro">
+          <p class="statement" data-i18n="intro.h">Sei camere, un giardino di ulivi, una piscina di sale.</p>
+          <p data-i18n="intro.p">Villa Maria Cristina è una casa di granito costruita nel 1820 nella campagna di Santa Teresa Gallura. Oggi accoglie solo adulti, a poco più di due chilometri dal mare.</p>
+          <dl class="facts">
+            <div><dt>1820</dt><dd data-i18n="fact.year">anno di costruzione</dd></div>
+            <div><dt>6</dt><dd data-i18n="fact.rooms">camere e suite</dd></div>
+            <div><dt>9,2</dt><dd data-i18n="fact.score">su Booking.com, 293 recensioni</dd></div>
+            <div><dt>2,3 km</dt><dd data-i18n="fact.beach">dalla spiaggia più vicina</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="dimora wrap" id="dimora">
+      <div class="dimora__head">
+        <h2 data-i18n="dimora.h" data-reveal>Due secoli di granito.</h2>
+        <div class="dimora__text" data-reveal>
+          <p data-i18n="dimora.p1">I muri sono quelli del 1820: pietra a vista, soffitti alti, pavimenti antichi, il pozzo nel cortile.</p>
+          <p data-i18n="dimora.p2">Dentro c'è tutto quello che serve oggi: aria condizionata, camere insonorizzate, Wi‑Fi. Luca e Maria Cristina vi accolgono di persona.</p>
+        </div>
+      </div>
+      <!-- the photograph stays on screen while the four details of the house scroll past it (main.js) -->
+      <div class="story">
+        <div class="story__stage">
+          <figure class="story__ph is-on"><img src="/photos/facciata-notte.webp" alt="La facciata in granito della villa illuminata di sera" width="1440" height="1080" loading="lazy" decoding="async"></figure>
+          <figure class="story__ph"><img src="/photos/torre.webp" alt="Il portone ad arco in ferro battuto nel muro di pietra" width="500" height="1080" loading="lazy" decoding="async"></figure>
+          <figure class="story__ph"><img src="/photos/scale.webp" alt="La scala di pietra che sale alla villa tra i muretti a secco" width="1168" height="1080" loading="lazy" decoding="async"></figure>
+          <figure class="story__ph"><img src="/photos/pozzo.webp" alt="Il pozzo in pietra nel cortile" width="1099" height="1080" loading="lazy" decoding="async"></figure>
+          <div class="story__bar" aria-hidden="true"><i></i></div>
+        </div>
+        <ol class="story__steps">
+          <li class="is-on"><span class="story__k">01</span><h3 data-i18n="dimora.c1">La facciata, di sera</h3><p data-i18n="dimora.s1">Granito a vista, lo stesso del 1820. Quando fa buio la pietra si accende di luce calda.</p></li>
+          <li><span class="story__k">02</span><h3 data-i18n="dimora.c4">Il portone ad arco</h3><p data-i18n="dimora.s2">Un arco nel muro di pietra, chiuso dal ferro battuto. Da qui si passa in giardino.</p></li>
+          <li><span class="story__k">03</span><h3 data-i18n="dimora.c2">La scala di pietra</h3><p data-i18n="dimora.s3">Gradini di pietra tra i muretti a secco: si sale alla casa a passo lento.</p></li>
+          <li><span class="story__k">04</span><h3 data-i18n="dimora.c3">Il pozzo nel cortile</h3><p data-i18n="dimora.s4">È ancora al suo posto, in pietra, nel cortile della casa.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="pool" id="piscina">
+      <div class="wrap pool__head">
+        <h2 data-i18n="pool.h" data-reveal>Acqua salata, tra gli ulivi.</h2>
+      </div>
+      <svg class="fx" width="0" height="0" aria-hidden="true"><filter id="ripple"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.05" numOctaves="2" seed="3" /><feDisplacementMap in="SourceGraphic" scale="0" xChannelSelector="R" yChannelSelector="G" /></filter></svg>
+      <figure class="pool__wide">
+        <div class="frame"><img src="/photos/piscina-giorno.webp" alt="La piscina d'acqua salata con la villa in granito sullo sfondo" width="1440" height="1080" loading="lazy" decoding="async" data-parallax></div>
+        <figcaption class="wrap" data-i18n="pool.c1">La piscina e la villa</figcaption>
+      </figure>
+      <div class="wrap pool__row">
+        <p class="pool__text" data-i18n="pool.p" data-reveal>Una piscina all'aperto d'acqua salata, con lettini e ombrelloni sulla ghiaia chiara, il prato e la villa sullo sfondo. Per il mare trovate teli e ombrelloni da spiaggia da portare con voi.</p>
+        <figure class="ph pool__mirror" data-clip>
+          <div class="frame"><img src="/photos/riflesso.webp" alt="La villa riflessa nell'acqua ferma della piscina al tramonto" width="1600" height="1018" loading="lazy" decoding="async" data-parallax></div>
+          <figcaption data-i18n="pool.c2">Al tramonto l'acqua diventa uno specchio</figcaption>
+        </figure>
+        <figure class="ph pool__lawn" data-clip>
+          <div class="frame"><img src="/photos/prato.webp" alt="Il prato, i lettini e la piscina visti da sotto un ulivo" width="1600" height="1047" loading="lazy" decoding="async" data-parallax></div>
+          <figcaption data-i18n="pool.c3">Dal prato</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="rooms" id="camere">
+      <div class="rooms__pin">
+        <div class="wrap rooms__head">
+          <h2 data-i18n="rooms.h" data-reveal>Quattro camere, due suite.</h2>
+          <p data-i18n="rooms.p" data-reveal>Tutte con bagno privato, ingresso indipendente, aria condizionata, minibar e TV con streaming.</p>
+        </div>
+        <ul class="rooms__track" tabindex="0">
+          <li class="room">
+            <img src="/photos/camera-1.webp" alt="Camera con letto matrimoniale a righe e scrittoio" width="1440" height="1080" loading="lazy" decoding="async">
+            <h3 data-i18n="r1.n">Camera con balcone</h3>
+            <p class="room__meta" data-i18n="r1.m">24 m² · fino a 3 ospiti</p>
+            <p data-i18n="r1.d">Letto king e divano letto, balcone affacciato sul giardino.</p>
+          </li>
+          <li class="room">
+            <img src="/photos/camera-2.webp" alt="Camera su due livelli con pavimento in legno" width="1440" height="1080" loading="lazy" decoding="async">
+            <h3 data-i18n="r2.n">Camera con terrazza</h3>
+            <p class="room__meta" data-i18n="r2.m">24 m² · fino a 4 ospiti</p>
+            <p data-i18n="r2.d">Un matrimoniale e due letti singoli, terrazza privata sul verde.</p>
+          </li>
+          <li class="room">
+            <img src="/photos/camera-3.webp" alt="Camera bianca con letto matrimoniale e scala in legno" width="1440" height="1080" loading="lazy" decoding="async">
+            <h3 data-i18n="r3.n">Camera vista piscina</h3>
+            <p class="room__meta" data-i18n="r3.m">24 m² · fino a 3 ospiti</p>
+            <p data-i18n="r3.d">Vista sul giardino e sulla piscina, ingresso indipendente.</p>
+          </li>
+          <li class="room">
+            <img src="/photos/camera-4.webp" alt="Camera con letto in ferro battuto e copriletto a tema marino" width="1440" height="1080" loading="lazy" decoding="async">
+            <h3 data-i18n="r4.n">Camera per quattro</h3>
+            <p class="room__meta" data-i18n="r4.m">24 m² · fino a 4 ospiti</p>
+            <p data-i18n="r4.d">Due letti matrimoniali, vista su piscina e giardino.</p>
+          </li>
+          <li class="room">
+            <img src="/photos/suite-giardino.webp" alt="Soggiorno della suite con parete in pietra, lampadario e pavimento a scacchi" width="1440" height="1080" loading="lazy" decoding="async">
+            <h3 data-i18n="r5.n">Suite sul giardino</h3>
+            <p class="room__meta" data-i18n="r5.m">50 m² · fino a 3 ospiti</p>
+            <p data-i18n="r5.d">Camera da letto, soggiorno con divano letto e patio ombreggiato.</p>
+          </li>
+          <li class="room">
+            <img src="/photos/suite-superior.webp" alt="Suite Superior con porte ad arco in legno e letto matrimoniale" width="1440" height="1080" loading="lazy" decoding="async">
+            <h3 data-i18n="r6.n">Suite Superior</h3>
+            <p class="room__meta" data-i18n="r6.m">50 m² · 2 ospiti</p>
+            <p data-i18n="r6.d">La più ampia: salotto separato, ingresso privato e patio.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="wrap rooms__foot"><a class="btn" href="#prenota" data-i18n="rooms.cta">Vedi prezzi e date</a></div>
+    </section>
+
+    <section class="bf" id="colazione">
+      <div class="wrap bf__grid">
+        <figure class="ph bf__garden" data-clip>
+          <div class="frame"><img src="/photos/giardino.webp" alt="Il giardino all'ombra degli alberi, con un tavolino lungo il muro a secco" width="1440" height="1080" loading="lazy" decoding="async" data-parallax></div>
+          <figcaption data-i18n="bf.c1">Il giardino, la mattina</figcaption>
+        </figure>
+        <div class="bf__text">
+          <h2 data-i18n="bf.h" data-reveal>La colazione la serve Luca.</h2>
+          <p data-i18n="bf.p" data-reveal>Ogni mattina in giardino: buffet italiano con dolci freschi, piatti caldi e prodotti della Gallura. Senza fretta, all'ombra.</p>
+          <figure class="ph bf__door">
+            <div class="frame"><img src="/photos/portone.webp" alt="Il portone ad arco aperto sul giardino" width="810" height="1080" loading="lazy" decoding="async" data-parallax></div>
+            <figcaption data-i18n="bf.c2">Si esce dal portone</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="sea" id="spiagge">
+      <div class="wrap sea__head">
+        <h2 data-i18n="sea.h" data-reveal>Che vento fa, oggi?</h2>
+        <p class="statement sea__live" id="wind" aria-live="polite" data-i18n="sea.loading" data-reveal>Leggo il vento su Santa Teresa…</p>
+      </div>
+      <div class="wrap">
+        <figure class="chart" id="chart" hidden>
+          <figcaption class="chart__head">
+            <div>
+              <h3 data-i18n="chart.h">Il vento nelle prossime 24 ore</h3>
+              <p data-i18n="chart.d">Nodi, ora per ora, su Santa Teresa Gallura</p>
+            </div>
+            <svg class="compass" viewBox="-50 -50 100 100" width="96" height="96" aria-hidden="true">
+              <circle class="compass__ring" r="40" />
+              <g class="compass__ticks"><path d="M0-40V-33" /><path d="M40 0H33" /><path d="M0 40V33" /><path d="M-40 0H-33" /></g>
+              <text class="compass__n" y="-20" text-anchor="middle">N</text>
+              <g class="compass__needle"><path d="M0-30 6 4H-6Z" /><path class="compass__tail" d="M0 26 4 4H-4Z" /></g>
+            </svg>
+          </figcaption>
+          <div class="chart__plot">
+            <svg class="chart__svg" role="img" aria-labelledby="chart-foot"></svg>
+            <div class="chart__tip" hidden><i></i><span></span></div>
+          </div>
+          <p class="chart__foot" id="chart-foot"></p>
+        </figure>
+      </div>
+      <div class="wrap sea__grid">
+        <p class="sea__text" data-i18n="sea.p" data-reveal>Qui decide il vento. A Capo Testa le spiagge sono due, una per lato dell'istmo: con il vento da ovest si va a Rena di Levante, con quello da est a Rena di Ponente.</p>
+        <ul class="beaches">
+          <li data-reveal><span class="beaches__n">La Punzesa</span><span class="beaches__km">2,3 km</span><span class="beaches__d" data-i18n="b1.d">La più vicina alla villa</span></li>
+          <li data-reveal><span class="beaches__n">Santa Reparata</span><span class="beaches__km">2,7 km</span><span class="beaches__d" data-i18n="b2.d">Baia riparata, buona per lo snorkeling</span></li>
+          <li data-reveal><span class="beaches__n">Rena Bianca</span><span class="beaches__km">2,7 km</span><span class="beaches__d" data-i18n="b3.d">La spiaggia del paese, sabbia bianca</span></li>
+          <li data-reveal><span class="beaches__n">La Liccia</span><span class="beaches__km">3,5 km</span><span class="beaches__d" data-i18n="b4.d">Lunga, con le dune alle spalle</span></li>
+          <li data-reveal data-beach="capo"><span class="beaches__n">Rena di Ponente e di Levante</span><span class="beaches__km">3,5 km</span><span class="beaches__d" data-i18n="b5.d">Sull'istmo di Capo Testa</span></li>
+        </ul>
+      </div>
+      <figure class="sea__wide" data-clip>
+        <div class="frame"><img src="/photos/dall-alto.webp" alt="La villa e la piscina dall'alto, con Santa Teresa Gallura e il mare all'orizzonte" width="1600" height="1032" loading="lazy" decoding="async" data-parallax></div>
+        <figcaption class="wrap" data-i18n="sea.c1">La villa dall'alto: in fondo il paese e il mare</figcaption>
+      </figure>
+    </section>
+
+    <section class="night" id="notte">
+      <div class="night__stage">
+        <img class="night__poster" src="/media/notte.webp" alt="La piscina illuminata di notte davanti alla villa" width="1920" height="996" loading="lazy" decoding="async">
+        <canvas class="night__gl" aria-hidden="true"></canvas>
+        <div class="wrap night__copy">
+          <h2 data-i18n="night.h">Di notte, un bagno sotto le stelle.</h2>
+          <div class="quotes">
+            <blockquote lang="en"><p>“We even had a late night swim to enjoy the stars.”</p><footer>Mary‑ann, United Kingdom</footer></blockquote>
+            <blockquote lang="en"><p>“Everything about this property is really just perfection.”</p><footer>Megan, United Kingdom</footer></blockquote>
+            <blockquote lang="en"><p>“Authentic, rustic, but also modern feel. Beautiful settings and pool.”</p><footer>Amy, Norway</footer></blockquote>
+          </div>
+          <p class="night__src" data-i18n="night.src">Recensioni verificate su Booking.com</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="book wrap" id="prenota">
+      <div class="book__main">
+        <h2 data-i18n="book.h" data-reveal>Scegliete le date.</h2>
+        <p data-i18n="book.p" data-reveal>Disponibilità e prezzi aggiornati sono su Booking.com: indicate le date e vi portiamo lì.</p>
+        <form class="book__form" id="book" novalidate data-reveal>
+          <label><span data-i18n="book.in">Arrivo</span><input type="date" name="checkin" required></label>
+          <label><span data-i18n="book.out">Partenza</span><input type="date" name="checkout" required></label>
+          <label><span data-i18n="book.guests">Ospiti</span>
+            <select name="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option></select>
+          </label>
+          <button class="btn" type="submit" data-i18n="book.go">Vedi disponibilità</button>
+          <p class="book__err" role="alert" hidden data-i18n="book.err">La partenza deve essere dopo l'arrivo.</p>
+        </form>
+      </div>
+      <div class="book__info" data-reveal>
+        <h3 data-i18n="info.h">Da sapere</h3>
+        <ul>
+          <li data-i18n="info.1">Check‑in dalle 15:00 alle 23:00</li>
+          <li data-i18n="info.2">Check‑out dalle 8:00 alle 10:30</li>
+          <li data-i18n="info.3">Parcheggio privato gratuito</li>
+          <li data-i18n="info.4">Struttura per soli adulti</li>
+          <li data-i18n="info.5">Animali non ammessi</li>
+          <li data-i18n="info.6">Non si fuma, silenzio dalle 23 alle 8</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__grid">
+      <address>
+        Strada C. Lamberti<br>07028 Santa Teresa Gallura (SS), Sardegna<br>
+        <a href="https://www.google.com/maps/search/?api=1&query=41.22235,9.18833" target="_blank" rel="noopener" data-i18n="foot.map">Apri in Google Maps</a>
+      </address>
+      <nav class="foot__links" aria-label="Footer">
+        <a href="#dimora" data-i18n="nav.villa">La dimora</a>
+        <a href="#piscina" data-i18n="nav.pool">La piscina</a>
+        <a href="#camere" data-i18n="nav.rooms">Le camere</a>
+        <a href="#spiagge" data-i18n="nav.beaches">Le spiagge</a>
+        <a href="#prenota" data-i18n="nav.book">Prenota</a>
+      </nav>
+      <p class="foot__legal">CIN IT090063B4000F4708<br><span data-i18n="foot.demo">Demo realizzata da Punto Due Studio</span><br><a href="#top" data-i18n="foot.top">Torna su</a></p>
+    </div>
+    <p class="foot__name" aria-hidden="true">Villa Maria Cristina</p>
+  </footer>
+</body>
+</html>
