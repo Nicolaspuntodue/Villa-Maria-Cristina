@@ -2,7 +2,7 @@ import {
   WebGLRenderer, Scene, PerspectiveCamera, Mesh, PlaneGeometry, ShaderMaterial, Points, BufferGeometry, BufferAttribute,
   AdditiveBlending, TextureLoader, LinearFilter, Color,
 } from 'three';
-import { ratioFor, pacer } from './gl.js';
+import { ratioFor, pacer, follow } from './gl.js';
 
 // Night: the villa's own photo of the lit pool, standing in a 3D scene. Scrolling tilts the camera up from the water to a sky of
 // stars that sit at different depths in front of the black sky, so they drift against each other as you look up.
@@ -117,7 +117,8 @@ export function initNight(canvas, { src }) {
   renderer.compile(scene, camera); // build the shaders now, while the section is still off screen
   addEventListener('pointermove', (e) => { mx = e.clientX / innerWidth - 0.5; }, { passive: true });
 
-  let visible = false, loaded = false, cx = 0;
+  let visible = false, loaded = false, cx = 0, target = 0;
+  const glide = follow();
   new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(canvas);
   new TextureLoader().load(src, (tex) => {
     tex.minFilter = LinearFilter; tex.generateMipmaps = false;
@@ -126,10 +127,11 @@ export function initNight(canvas, { src }) {
   });
 
   return {
-    setProgress(p) { progress = p; },
+    setProgress(p) { target = p; },
     frame(time) {
       if (!visible || !loaded) return;
       pace(time);
+      progress = glide(target, time);
       const t = progress * progress * (3 - 2 * progress);
       cx += (mx * 0.25 - cx) * 0.05;
       camera.position.set(cx, t * vh * 0.6, DIST);

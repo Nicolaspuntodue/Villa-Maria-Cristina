@@ -25,6 +25,17 @@ export function pacer(lower) {
     if (slow > 30) { slow = 0; lower(); }
   };
 }
+// A phone reports its scroll position in uneven steps (there is no Lenis smoothing on touch), and a camera tied straight to it
+// moves in jerks. follow() -> step(target, time) returns a value that glides after the target, at the same pace on any frame rate.
+export function follow(rate = 8) {
+  let v = 0, last = 0;
+  return (target, time) => {
+    const dt = Math.min(Math.max(time - last, 0), 0.1); last = time;
+    v += (target - v) * (1 - Math.exp(-dt * rate));
+    if (Math.abs(target - v) < 1e-4) v = target;
+    return v;
+  };
+}
 
 // views(aspect) -> the two camera framings in photo pixels [cx, cy, w, h]: inside the pool, and the whole estate (cover fit)
 export function views(a) {
@@ -246,7 +257,8 @@ export function initHero(canvas, { src, portrait }) {
   addEventListener('pointermove', onMove, { passive: true });
   addEventListener('pointerdown', (e) => { last = null; onMove(e); }, { passive: true });
 
-  let visible = true, drawn = false, nextRain = 0;
+  let visible = true, drawn = false, nextRain = 0, target = 0;
+  const glide = follow();
   new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(canvas);
 
   let resolveReady;
@@ -260,6 +272,8 @@ export function initHero(canvas, { src, portrait }) {
   const frame = (time) => {
     if (!visible || !drawn) return;
     pace(time);
+    const p = glide(target, time);
+    if (p !== progress) { progress = p; setView(); }
     if (time > nextRain) { // the pool is never quite still: the jet, a leaf, the breeze
       drops.push([0.15 + Math.random() * 0.7, 0.1 + Math.random() * 0.8, 0.02 + Math.random() * 0.03]);
       nextRain = time + 0.5 + Math.random() * 1.2;
@@ -278,5 +292,5 @@ export function initHero(canvas, { src, portrait }) {
     resolveReady();
   };
 
-  return { ready, frame, setProgress(p) { progress = p; setView(); } };
+  return { ready, frame, setProgress(p) { target = p; } };
 }

@@ -132,7 +132,8 @@ if (!reduced && innerWidth >= 900) {
 /* ---------- hero: the pool, then the drone goes up ---------- */
 if (scene) {
   const wide = innerWidth >= 900;
-  const hero = { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: true };
+  // scrub 0.5: the panels ease after the scroll position, as the two cameras do (gl.js follow), so uneven touch scrolling does not show
+  const hero = { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: 0.5 };
   gsap.timeline({ scrollTrigger: hero, defaults: { ease: 'none' } })
     .to('.hero__copy', { autoAlpha: 0, y: -40, duration: 0.14 }, 0.03)
     .fromTo('.hero__intro', wide ? { xPercent: 100 } : { yPercent: 100 }, { xPercent: 0, yPercent: 0, duration: 0.26, ease: 'power2.out' }, 0.62)
@@ -168,7 +169,7 @@ if (scene) {
     }).catch((err) => console.warn('Night sky unavailable, using the photo', err));
   }, { rootMargin: '300% 0px' }); // three screens early: the scene is built before it scrolls into view, not as it does
   near.observe(night);
-  gsap.timeline({ scrollTrigger: { trigger: night, start: 'top top', end: 'bottom bottom', scrub: true }, defaults: { ease: 'none' } })
+  gsap.timeline({ scrollTrigger: { trigger: night, start: 'top top', end: 'bottom bottom', scrub: 0.5 }, defaults: { ease: 'none' } })
     .from('.quotes blockquote, .night__src', { autoAlpha: 0, y: 32, stagger: 0.14, duration: 0.2 }, 0.22)
     .to({}, { duration: 0.1 }, 0.9);
 }
