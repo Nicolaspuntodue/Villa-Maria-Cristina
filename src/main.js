@@ -30,6 +30,7 @@ const saved = { get() { try { return localStorage.getItem('vmc-lang'); } catch {
 let lang = pickLang([new URLSearchParams(location.search).get('lang'), saved.get(), ...(navigator.languages || [navigator.language])].filter(Boolean));
 let wind = null; // null = still reading, 'offline' = no reading, else { name, sector, kn, beach, deg, hours }
 let chartUnit;   // set once the 24-hour chart is on the page
+let stay = null; // { from, to, guests } once the dates are chosen in the booking form
 
 function renderWind() {
   const t = T[lang], el = $('#wind');
@@ -43,6 +44,11 @@ function renderWind() {
   chartUnit(t['chart.unit']);
   $('#chart-foot').textContent = fill(t['chart.peak'], peak(wind.hours));
 }
+function renderStay() {
+  if (!stay) return;
+  const day = new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'long' });
+  $('#book-sum').textContent = fill(T[lang]['book.sum'], { from: day.format(stay.from), to: day.format(stay.to), n: Math.round((stay.to - stay.from) / 864e5), g: stay.guests });
+}
 function setLang(l) {
   lang = l;
   const t = T[l];
@@ -52,6 +58,7 @@ function setLang(l) {
   $$('[data-i18n]').forEach((el) => { el.textContent = t[el.dataset.i18n]; });
   $('#lang').value = l;
   renderWind();
+  renderStay();
   ScrollTrigger.refresh(); // line counts change with the language
 }
 $('#lang').addEventListener('change', async (e) => {
@@ -227,10 +234,9 @@ if (!reduced) {
   }));
 }
 
-/* ---------- booking: dates go straight to the villa's Booking.com page ---------- */
-// ponytail: hands off to Booking.com; replace with the villa's own booking engine or contact when they have one.
-const BOOKING = 'https://www.booking.com/hotel/it/villa-maria-cristina-provincia-di-sassari';
-const BOOKING_LANG = { it: 'it', en: 'en-gb', es: 'es', fr: 'fr', de: 'de' };
+/* ---------- booking: dates, then the room, then payment, all on the page ---------- */
+// ponytail: a demo of the flow only. It knows no availability and no prices and takes no money; the real one needs a server
+// that reads the Booking.com calendars (iCal), keeps the reservations and opens a Stripe checkout.
 const form = $('#book');
 const today = new Date().toISOString().slice(0, 10);
 form.checkin.min = today; form.checkout.min = today;
@@ -239,11 +245,17 @@ form.addEventListener('submit', (e) => {
   e.preventDefault();
   const { checkin, checkout, guests } = form;
   const err = $('.book__err');
-  const dated = checkin.value && checkout.value;
-  err.hidden = !dated || checkout.value > checkin.value;
+  err.hidden = checkin.value && checkout.value > checkin.value;
   if (!err.hidden) return;
-  const q = dated ? `?${new URLSearchParams({ checkin: checkin.value, checkout: checkout.value, group_adults: guests.value, no_rooms: 1 })}` : '';
-  open(`${BOOKING}.${BOOKING_LANG[lang]}.html${q}`, '_blank', 'noopener');
+  stay = { from: new Date(checkin.value), to: new Date(checkout.value), guests: Number(guests.value) };
+  // only the rooms that sleep the whole party; the first of them is preselected
+  const fits = $$('.book__rooms label').filter((l) => !(l.hidden = Number(l.dataset.cap) < stay.guests));
+  $('input', fits[0]).checked = true;
+  $('#book-demo').hidden = true;
+  $('#book-result').hidden = false;
+  renderStay();
+  ScrollTrigger.refresh(); // the panel adds height
 });
+$('#book-pay').addEventListener('click', () => { $('#book-demo').hidden = false; });
 
 addEventListener('load', () => ScrollTrigger.refresh());

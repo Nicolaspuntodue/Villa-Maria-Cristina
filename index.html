@@ -75,16 +75,16 @@
       <div class="story">
         <div class="story__stage">
           <figure class="story__ph is-on"><img src="/photos/facciata-notte.webp" alt="La facciata in granito della villa illuminata di sera" width="1440" height="1080" loading="lazy" decoding="async"></figure>
-          <figure class="story__ph"><img src="/photos/torre.webp" alt="Il portone ad arco in ferro battuto nel muro di pietra" width="500" height="1080" loading="lazy" decoding="async"></figure>
-          <figure class="story__ph"><img src="/photos/scale.webp" alt="La scala di pietra che sale alla villa tra i muretti a secco" width="1168" height="1080" loading="lazy" decoding="async"></figure>
-          <figure class="story__ph"><img src="/photos/pozzo.webp" alt="Il pozzo in pietra nel cortile" width="1099" height="1080" loading="lazy" decoding="async"></figure>
+          <figure class="story__ph"><img src="/photos/tetto.webp" alt="La villa dall'alto: il tetto di coppi rossi, i muri di granito e la piscina nel prato" width="1284" height="1080" loading="lazy" decoding="async"></figure>
+          <figure class="story__ph"><img src="/photos/pietra-dentro.jpg" alt="Un salotto con parete in granito a vista, lampadario e pavimento a scacchi" width="1440" height="1080" loading="lazy" decoding="async"></figure>
+          <figure class="story__ph"><img src="/photos/tramonto.webp" alt="Il portone ad arco in ferro battuto contro il cielo rosso del tramonto" width="1600" height="900" loading="lazy" decoding="async"></figure>
           <div class="story__bar" aria-hidden="true"><i></i></div>
         </div>
         <ol class="story__steps">
           <li class="is-on"><span class="story__k">01</span><h3 data-i18n="dimora.c1">La facciata, di sera</h3><p data-i18n="dimora.s1">Granito a vista, lo stesso del 1820. Quando fa buio la pietra si accende di luce calda.</p></li>
-          <li><span class="story__k">02</span><h3 data-i18n="dimora.c4">Il portone ad arco</h3><p data-i18n="dimora.s2">Un arco nel muro di pietra, chiuso dal ferro battuto. Da qui si passa in giardino.</p></li>
-          <li><span class="story__k">03</span><h3 data-i18n="dimora.c2">La scala di pietra</h3><p data-i18n="dimora.s3">Gradini di pietra tra i muretti a secco: si sale alla casa a passo lento.</p></li>
-          <li><span class="story__k">04</span><h3 data-i18n="dimora.c3">Il pozzo nel cortile</h3><p data-i18n="dimora.s4">È ancora al suo posto, in pietra, nel cortile della casa.</p></li>
+          <li><span class="story__k">02</span><h3 data-i18n="dimora.c2">Il tetto, dall'alto</h3><p data-i18n="dimora.s2">Coppi rossi sopra i muri di granito, il giardino intorno e la piscina a pochi passi.</p></li>
+          <li><span class="story__k">03</span><h3 data-i18n="dimora.c3">La pietra, anche dentro</h3><p data-i18n="dimora.s3">In salotto il granito resta a vista: parete di pietra, porte in legno, pavimento a scacchi.</p></li>
+          <li><span class="story__k">04</span><h3 data-i18n="dimora.c4">Il portone, al tramonto</h3><p data-i18n="dimora.s4">Dall'arco in ferro battuto si guarda il cielo accendersi sopra i muretti a secco.</p></li>
         </ol>
       </div>
     </section>
@@ -237,7 +237,7 @@
     <section class="book wrap" id="prenota">
       <div class="book__main">
         <h2 data-i18n="book.h" data-reveal>Scegliete le date.</h2>
-        <p data-i18n="book.p" data-reveal>Disponibilità e prezzi aggiornati sono su Booking.com: indicate le date e vi portiamo lì.</p>
+        <p data-i18n="book.p" data-reveal>Indicate le date e gli ospiti: scegliete la camera e prenotate qui, senza passare da un portale.</p>
         <form class="book__form" id="book" novalidate data-reveal>
           <label><span data-i18n="book.in">Arrivo</span><input type="date" name="checkin" required></label>
           <label><span data-i18n="book.out">Partenza</span><input type="date" name="checkout" required></label>
@@ -247,6 +247,21 @@
           <button class="btn" type="submit" data-i18n="book.go">Vedi disponibilità</button>
           <p class="book__err" role="alert" hidden data-i18n="book.err">La partenza deve essere dopo l'arrivo.</p>
         </form>
+        <!-- step two of the booking, on the page itself: the rooms that fit the party, then payment (main.js) -->
+        <div class="book__result" id="book-result" hidden>
+          <p class="statement" id="book-sum" aria-live="polite"></p>
+          <fieldset class="book__rooms">
+            <legend data-i18n="book.pick">Scegliete la camera</legend>
+            <label data-cap="3"><input type="radio" name="room" value="r1"><span data-i18n="r1.n">Camera con balcone</span><small data-i18n="r1.m">24 m² · fino a 3 ospiti</small></label>
+            <label data-cap="4"><input type="radio" name="room" value="r2"><span data-i18n="r2.n">Camera con terrazza</span><small data-i18n="r2.m">24 m² · fino a 4 ospiti</small></label>
+            <label data-cap="3"><input type="radio" name="room" value="r3"><span data-i18n="r3.n">Camera vista piscina</span><small data-i18n="r3.m">24 m² · fino a 3 ospiti</small></label>
+            <label data-cap="4"><input type="radio" name="room" value="r4"><span data-i18n="r4.n">Camera per quattro</span><small data-i18n="r4.m">24 m² · fino a 4 ospiti</small></label>
+            <label data-cap="3"><input type="radio" name="room" value="r5"><span data-i18n="r5.n">Suite sul giardino</span><small data-i18n="r5.m">50 m² · fino a 3 ospiti</small></label>
+            <label data-cap="2"><input type="radio" name="room" value="r6"><span data-i18n="r6.n">Suite Superior</span><small data-i18n="r6.m">50 m² · 2 ospiti</small></label>
+          </fieldset>
+          <button class="btn" type="button" id="book-pay" data-i18n="book.pay">Continua al pagamento</button>
+          <p class="book__demo" id="book-demo" role="status" hidden data-i18n="book.demo">Questa è una demo. Nel sito definitivo qui si paga con carta, in modo sicuro, e le date si chiudono anche su Booking.com.</p>
+        </div>
       </div>
       <div class="book__info" data-reveal>
         <h3 data-i18n="info.h">Da sapere</h3>
