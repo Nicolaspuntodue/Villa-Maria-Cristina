@@ -2,6 +2,7 @@ import {
   WebGLRenderer, Scene, PerspectiveCamera, Mesh, PlaneGeometry, ShaderMaterial, Points, BufferGeometry, BufferAttribute,
   AdditiveBlending, TextureLoader, LinearFilter, Color,
 } from 'three';
+import { ratioFor, pacer } from './gl.js';
 
 // Night: the villa's own photo of the lit pool, standing in a 3D scene. Scrolling tilts the camera up from the water to a sky of
 // stars that sit at different depths in front of the black sky, so they drift against each other as you look up.
@@ -53,8 +54,6 @@ const starFrag = /* glsl */`
 
 export function initNight(canvas, { src }) {
   const renderer = new WebGLRenderer({ canvas, antialias: false });
-  const dpr = Math.min(devicePixelRatio, 1.75);
-  renderer.setPixelRatio(dpr);
   renderer.setClearColor(BG);
   const scene = new Scene();
   const camera = new PerspectiveCamera(40, 1, 0.1, 50);
@@ -85,9 +84,14 @@ export function initNight(canvas, { src }) {
   stars.frustumCulled = false;
   scene.add(stars);
 
-  let vh = 1, vw = 1, progress = 0, mx = 0;
-  const resize = () => {
-    const W = canvas.clientWidth || innerWidth, H = canvas.clientHeight || innerHeight;
+  let vh = 1, vw = 1, progress = 0, mx = 0, W = 0, H = 0, scale = 1;
+  const resize = (force) => {
+    const w = canvas.clientWidth || innerWidth, h = canvas.clientHeight || innerHeight;
+    // same guard as the pool: a phone's sliding address bar must not reallocate the canvas mid-scroll
+    if (force !== true && w === W && h === H) return;
+    W = w; H = h;
+    const dpr = ratioFor(W, H) * scale;
+    renderer.setPixelRatio(dpr);
     renderer.setSize(W, H, false);
     camera.aspect = W / H; camera.updateProjectionMatrix();
     vh = 2 * DIST * Math.tan((camera.fov / 2) * Math.PI / 180); vw = vh * camera.aspect;
@@ -109,12 +113,15 @@ export function initNight(canvas, { src }) {
   };
   resize();
   addEventListener('resize', resize);
+  const pace = pacer(() => { if (scale > 0.6) { scale *= 0.8; resize(true); } });
+  renderer.compile(scene, camera); // build the shaders now, while the section is still off screen
   addEventListener('pointermove', (e) => { mx = e.clientX / innerWidth - 0.5; }, { passive: true });
 
   let visible = false, loaded = false, cx = 0;
   new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(canvas);
   new TextureLoader().load(src, (tex) => {
     tex.minFilter = LinearFilter; tex.generateMipmaps = false;
+    renderer.initTexture(tex); // upload it now, not on the first visible frame
     photoMat.uniforms.uTex.value = tex; loaded = true;
   });
 
@@ -122,6 +129,7 @@ export function initNight(canvas, { src }) {
     setProgress(p) { progress = p; },
     frame(time) {
       if (!visible || !loaded) return;
+      pace(time);
       const t = progress * progress * (3 - 2 * progress);
       cx += (mx * 0.25 - cx) * 0.05;
       camera.position.set(cx, t * vh * 0.6, DIST);

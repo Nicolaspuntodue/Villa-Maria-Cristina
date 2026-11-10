@@ -166,7 +166,7 @@ if (scene) {
       canvas.classList.add('is-ready');
       ScrollTrigger.create({ trigger: night, start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: (s) => sky.setProgress(s.progress) });
     }).catch((err) => console.warn('Night sky unavailable, using the photo', err));
-  }, { rootMargin: '100% 0px' });
+  }, { rootMargin: '300% 0px' }); // three screens early: the scene is built before it scrolls into view, not as it does
   near.observe(night);
   gsap.timeline({ scrollTrigger: { trigger: night, start: 'top top', end: 'bottom bottom', scrub: true }, defaults: { ease: 'none' } })
     .from('.quotes blockquote, .night__src', { autoAlpha: 0, y: 32, stagger: 0.14, duration: 0.2 }, 0.22)

@@ -14,6 +14,18 @@ const POOL_M = [6, 12]; // metres, only used to scale the waves
 
 const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 
+// Both scenes cost per pixel, so the drawing buffer is kept small: fewer device pixels on phones, and a total budget on big screens.
+export const ratioFor = (W, H) => Math.min(devicePixelRatio, W < 700 ? 1.25 : 1.5, Math.sqrt(2.4e6 / (W * H)));
+// pacer(lower) -> call it every frame with the time in seconds; after 30 slow frames in a row it asks for a lower resolution
+export function pacer(lower) {
+  let last = 0, slow = 0;
+  return (time) => {
+    const dt = time - last; last = time;
+    slow = dt > 0.024 && dt < 0.2 ? slow + 1 : 0; // over 0.2 s is a paused tab, not a slow frame
+    if (slow > 30) { slow = 0; lower(); }
+  };
+}
+
 // views(aspect) -> the two camera framings in photo pixels [cx, cy, w, h]: inside the pool, and the whole estate (cover fit)
 export function views(a) {
   const pw = POOL.x1 - POOL.x0, ph = POOL.y1 - POOL.y0;
@@ -96,7 +108,7 @@ const drawFrag = /* glsl */`
     vec2 p = mod(uv * TAU, TAU) - 250.0;
     vec2 i = p;
     float c = 1.0, inten = 0.005;
-    for (int n = 0; n < 4; n++) {
+    for (int n = 0; n < ITER; n++) {
       float tt = t * (1.0 - (3.5 / float(n + 1)));
       i = p + vec2(cos(tt - i.x) + sin(tt + i.y), sin(tt - i.y) + cos(tt + i.x));
       c += 1.0 / length(vec2(p.x / (sin(i.x + tt) / inten), p.y / (cos(i.y + tt) / inten)));
@@ -140,7 +152,11 @@ const drawFrag = /* glsl */`
       water = mix(water, vec3(0.90, 0.95, 0.93), ta * 0.94);
 
       float c = caustic(fm * 0.42 + n * 0.3, uTime * 0.55);
-      float c2 = caustic(fm * 0.9 + 3.7, uTime * 0.4);
+      #ifdef LITE
+        float c2 = 0.0; // phones draw one caustic net, not two
+      #else
+        float c2 = caustic(fm * 0.9 + 3.7, uTime * 0.4);
+      #endif
       water += vec3(0.10, 0.52, 0.62) * c * 0.9 * (1.0 - 0.5 * ta) + vec3(0.5, 0.8, 0.85) * c2 * 0.25 * (1.0 - ta);
       water += vec3(0.6, 0.9, 0.95) * min((hx * hx + hy * hy) * 40.0, 0.35);
       vec3 nn = normalize(vec3(-n * 5.0, 1.0));
@@ -156,7 +172,7 @@ const drawFrag = /* glsl */`
 
 export function initHero(canvas, { src, portrait }) {
   const renderer = new WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+  const lite = innerWidth < 700; // phones: a lighter water shader
   const scene = new Scene(), camera = new Camera();
   const quad = new Mesh(new PlaneGeometry(2, 2));
   scene.add(quad);
@@ -173,6 +189,7 @@ export function initHero(canvas, { src, portrait }) {
   const pw = POOL.x1 - POOL.x0, ph = POOL.y1 - POOL.y0;
   const drawMat = new ShaderMaterial({
     vertexShader: vert, fragmentShader: drawFrag,
+    defines: lite ? { LITE: 1, ITER: 3 } : { ITER: 4 },
     uniforms: {
       uPhoto: { value: null }, uSim: { value: null }, uTitle: { value: title.tex },
       uView: { value: new Vector4() },
@@ -183,7 +200,7 @@ export function initHero(canvas, { src, portrait }) {
     },
   });
 
-  let v = views(1), view = [0, 0, 1, 1], progress = 0, W = 1, H = 1;
+  let v = views(1), view = [0, 0, 1, 1], progress = 0, W = 0, H = 0, scale = 1;
   const setView = () => {
     // zoom is geometric so the pull-back feels like constant climb; the centre follows the zoom
     const t = clamp((progress - 0.04) / 0.7, 0, 1);
@@ -195,8 +212,12 @@ export function initHero(canvas, { src, portrait }) {
     drawMat.uniforms.uZoom.value = z;
     drawMat.uniforms.uScrim.value = 1 - clamp(progress / 0.2, 0, 1);
   };
-  const resize = () => {
-    W = canvas.clientWidth || innerWidth; H = canvas.clientHeight || innerHeight;
+  const resize = (force) => {
+    const w = canvas.clientWidth || innerWidth, h = canvas.clientHeight || innerHeight;
+    // a phone fires resize every time its address bar slides; the canvas has not changed, and resizing it would reallocate it mid-scroll
+    if (force !== true && w === W && h === H) return;
+    W = w; H = h;
+    renderer.setPixelRatio(ratioFor(W, H) * scale);
     renderer.setSize(W, H, false);
     v = views(W / H);
     // the name: 86% of the first view wide, a little above its centre so the copy below has room
@@ -206,6 +227,7 @@ export function initHero(canvas, { src, portrait }) {
   };
   resize();
   addEventListener('resize', resize);
+  const pace = pacer(() => { if (scale > 0.6) { scale *= 0.8; resize(true); } });
 
   // pointer -> pool uv
   const drops = [];
@@ -237,6 +259,7 @@ export function initHero(canvas, { src, portrait }) {
 
   const frame = (time) => {
     if (!visible || !drawn) return;
+    pace(time);
     if (time > nextRain) { // the pool is never quite still: the jet, a leaf, the breeze
       drops.push([0.15 + Math.random() * 0.7, 0.1 + Math.random() * 0.8, 0.02 + Math.random() * 0.03]);
       nextRain = time + 0.5 + Math.random() * 1.2;
